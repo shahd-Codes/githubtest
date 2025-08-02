@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Meyve Dizisi Uygulaması</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('fruits-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2, h3 {
+      color: #ffde59;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px 25px;
+      max-width: 400px;
+    }
+
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    input {
+      width: 200px;
+    }
+
+    button {
+      background-color: #ffde59;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h2> Meyve Dizisi Uygulaması</h2>
+
+    <h3> Tüm Meyveler:</h3>
+    <ul id="liste"></ul>
+
+    <h3> M Harfiyle Başlayanlar:</h3>
+    <ul id="filtre"></ul>
+
+    <h3> Büyük Harflerle Yazılmışlar:</h3>
+    <ul id="mapSonucu"></ul>
+
+    <h3> Toplam:</h3>
+    <p id="sayac"></p>
+
+    <div>
+      <input type="text" id="yeniMeyve" placeholder="Yeni meyve girin">
+      <button onclick="meyveEkle()">Ekle</button>
+      <button onclick="verileriYenile()">Yenile</button>
+    </div>
+  </div>
+
+  <script>
+    let meyveler = ["Elma", "Muz", "Çilek", "Portakal", "Mango", "Mandarin"];
+
+    function verileriYenile() {
+      document.getElementById("liste").innerHTML = "";
+      document.getElementById("filtre").innerHTML = "";
+      document.getElementById("mapSonucu").innerHTML = "";
+
+      meyveler.forEach(meyve => {
+        const li = document.createElement("li");
+        li.textContent = meyve;
+        document.getElementById("liste").appendChild(li);
+      });
+
+      const filtrelenmis = meyveler.filter(m => m.startsWith("M"));
+      filtrelenmis.forEach(meyve => {
+        const li = document.createElement("li");
+        li.textContent = meyve;
+        document.getElementById("filtre").appendChild(li);
+      });
+
+      const buyuk = meyveler.map(m => m.toUpperCase());
+      buyuk.forEach(meyve => {
+        const li = document.createElement("li");
+        li.textContent = meyve;
+        document.getElementById("mapSonucu").appendChild(li);
+      });
+
+      const toplam = meyveler.reduce(acc => acc + 1, 0);
+      document.getElementById("sayac").textContent = `${toplam} adet meyve var.`;
+    }
+
+    function meyveEkle() {
+      const yeni = document.getElementById("yeniMeyve").value.trim();
+      if (yeni !== "") {
+        meyveler.push(yeni);
+        document.getElementById("yeniMeyve").value = "";
+        verileriYenile();
+      }
+    }
+
+    verileriYenile();
+  </script>
+</body>
+</html>
